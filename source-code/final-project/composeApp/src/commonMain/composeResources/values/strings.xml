@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="label_title">Title</string>
+    <string name="label_bred_for">Bred For</string>
+    <string name="label_bred_group">Bred Group</string>
+    <string name="label_temperament">Temperament</string>
+    <string name="label_weight">Weight</string>
+    <string name="label_height">Height</string>
+    <string name="label_country">Country</string>
+    <string name="label_history">History</string>
+    <string name="label_origin">Origin</string>
+    <string name="description">Description</string>
+
+    <string name="back">Back</string>
+
+    <string name="no_data_available">No data available</string>
+</resources>
