@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -29,26 +28,26 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.droidcon.doggodelight.data.DoggoObject
+import com.droidcon.doggodelight.data.Doggo
 import com.droidcon.doggodelight.screens.EmptyScreenContent
-import com.droidcon.doggodelight.screens.detail.DetailScreen
+import com.droidcon.doggodelight.screens.detail.DoggoDetailScreen
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 
-data object ListScreen : Screen {
+data object DoggoListScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel: ListScreenModel = getScreenModel()
+        val screenModel: DoggoListScreenModel = getScreenModel()
 
-        val objects by screenModel.objects.collectAsState()
+        val doggosList by screenModel.doggos.collectAsState()
 
-        AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
-            if (objectsAvailable) {
-                ObjectGrid(
-                    objects = objects,
-                    onObjectClick = { id ->
-                        navigator.push(DetailScreen(id))
+        AnimatedContent(doggosList.isNotEmpty()) { doggos ->
+            if (doggos) {
+                DoggoGrid(
+                    doggoList = doggosList,
+                    onDoggoClick = { id ->
+                        navigator.push(DoggoDetailScreen(id))
                     }
                 )
             } else {
@@ -59,9 +58,9 @@ data object ListScreen : Screen {
 }
 
 @Composable
-private fun ObjectGrid(
-    objects: List<DoggoObject>,
-    onObjectClick: (Int) -> Unit,
+private fun DoggoGrid(
+    doggoList: List<Doggo>,
+    onDoggoClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -69,18 +68,18 @@ private fun ObjectGrid(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(objects, key = { it.id }) { obj ->
-            ObjectFrame(
-                obj = obj,
-                onClick = { onObjectClick(obj.id) },
+        items(doggoList, key = { it.id }) { doggo ->
+            DoggoFrame(
+                doggo = doggo,
+                onClick = { onDoggoClick(doggo.id) },
             )
         }
     }
 }
 
 @Composable
-private fun ObjectFrame(
-    obj: DoggoObject,
+private fun DoggoFrame(
+    doggo: Doggo,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -90,8 +89,8 @@ private fun ObjectFrame(
             .clickable { onClick() }
     ) {
         KamelImage(
-            resource = asyncPainterResource(data = obj.image.url),
-            contentDescription = obj.name,
+            resource = asyncPainterResource(data = doggo.image.url),
+            contentDescription = doggo.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,8 +100,8 @@ private fun ObjectFrame(
 
         Spacer(Modifier.height(2.dp))
 
-        Text(obj.name, style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold))
-        Text(obj.bredFor ?: "", style = MaterialTheme.typography.body2)
-        Text(obj.origin ?: "", style = MaterialTheme.typography.caption)
+        Text(doggo.name, style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold))
+        Text(doggo.bredFor ?: "", style = MaterialTheme.typography.body2)
+        Text(doggo.origin ?: "", style = MaterialTheme.typography.caption)
     }
 }

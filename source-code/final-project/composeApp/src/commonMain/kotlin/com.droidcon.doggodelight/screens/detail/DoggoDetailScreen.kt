@@ -34,7 +34,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.droidcon.doggodelight.data.DoggoObject
+import com.droidcon.doggodelight.data.Doggo
 import com.droidcon.doggodelight.screens.EmptyScreenContent
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -53,16 +53,16 @@ import doggo_delight.composeapp.generated.resources.label_height
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-data class DetailScreen(val id: Int) : Screen {
+data class DoggoDetailScreen(val id: Int) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel: DetailScreenModel = getScreenModel()
 
-        val obj by screenModel.getObject(id).collectAsState(initial = null)
-        AnimatedContent(obj != null) { objectAvailable ->
-            if (objectAvailable) {
-                ObjectDetails(obj!!, onBackClick = { navigator.pop() })
+        val doggo by screenModel.getDoggo(id).collectAsState(initial = null)
+        AnimatedContent(doggo != null) { doggoAvailable ->
+            if (doggoAvailable) {
+                DoggoDetails(doggo!!, onBackClick = { navigator.pop() })
             } else {
                 EmptyScreenContent(Modifier.fillMaxSize())
             }
@@ -70,10 +70,9 @@ data class DetailScreen(val id: Int) : Screen {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
-private fun ObjectDetails(
-    obj: DoggoObject,
+private fun DoggoDetails(
+    doggo: Doggo,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -93,8 +92,8 @@ private fun ObjectDetails(
                 .padding(paddingValues)
         ) {
             KamelImage(
-                resource = asyncPainterResource(data = obj.image.url),
-                contentDescription = obj.name,
+                resource = asyncPainterResource(data = doggo.image.url),
+                contentDescription = doggo.name,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -103,18 +102,18 @@ private fun ObjectDetails(
 
             SelectionContainer {
                 Column(Modifier.padding(12.dp)) {
-                    Text(obj.name, style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold))
+                    Text(doggo.name, style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold))
                     Spacer(Modifier.height(6.dp))
-                    LabeledInfo(stringResource(Res.string.label_title), obj.name)
-                    LabeledInfo(stringResource(Res.string.label_bred_for), obj.bredFor ?: "")
-                    LabeledInfo(stringResource(Res.string.label_bred_group), obj.breedGroup?: "")
-                    LabeledInfo(stringResource(Res.string.label_temperament), obj.temperament?: "")
-                    LabeledInfo(stringResource(Res.string.description), obj.description?: "")
-                    LabeledInfo(stringResource(Res.string.label_country), obj.countryCode ?: "")
-                    LabeledInfo(stringResource(Res.string.label_history), obj.history ?: "")
-                    LabeledInfo(stringResource(Res.string.label_origin), obj.origin ?: "")
-                    LabeledInfo(stringResource(Res.string.label_weight), obj.weight.metric)
-                    LabeledInfo(stringResource(Res.string.label_height), obj.height.metric)
+                    LabeledInfo(stringResource(Res.string.label_title), doggo.name)
+                    LabeledInfo(stringResource(Res.string.label_bred_for), doggo.bredFor ?: "")
+                    LabeledInfo(stringResource(Res.string.label_bred_group), doggo.breedGroup?: "")
+                    LabeledInfo(stringResource(Res.string.label_temperament), doggo.temperament?: "")
+                    LabeledInfo(stringResource(Res.string.description), doggo.description?: "")
+                    LabeledInfo(stringResource(Res.string.label_country), doggo.countryCode ?: "")
+                    LabeledInfo(stringResource(Res.string.label_history), doggo.history ?: "")
+                    LabeledInfo(stringResource(Res.string.label_origin), doggo.origin ?: "")
+                    LabeledInfo(stringResource(Res.string.label_weight), doggo.weight.metric)
+                    LabeledInfo(stringResource(Res.string.label_height), doggo.height.metric)
                 }
             }
         }

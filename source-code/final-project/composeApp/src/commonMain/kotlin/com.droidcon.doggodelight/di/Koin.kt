@@ -6,7 +6,7 @@ import com.droidcon.doggodelight.data.DoggoApi
 import com.droidcon.doggodelight.data.DoggoRepository
 import com.droidcon.doggodelight.data.DoggoStorage
 import com.droidcon.doggodelight.screens.detail.DetailScreenModel
-import com.droidcon.doggodelight.screens.list.ListScreenModel
+import com.droidcon.doggodelight.screens.list.DoggoListScreenModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
@@ -36,7 +36,7 @@ val dataModule = module {
 }
 
 val screenModelsModule = module {
-    factoryOf(::ListScreenModel)
+    factoryOf(::DoggoListScreenModel)
     factoryOf(::DetailScreenModel)
 }
 

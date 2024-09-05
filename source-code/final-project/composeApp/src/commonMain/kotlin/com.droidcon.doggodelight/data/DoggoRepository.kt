@@ -18,10 +18,10 @@ class DoggoRepository(
     }
 
     suspend fun refresh() {
-        doggoStorage.saveObjects(doggoApi.getData())
+        doggoStorage.saveDoggos(doggoApi.getData())
     }
 
-    fun getObjects(): Flow<List<DoggoObject>> = doggoStorage.getObjects()
+    fun getDoggo(): Flow<List<Doggo>> = doggoStorage.getDoggos()
 
-    fun getObjectById(id: Int): Flow<DoggoObject?> = doggoStorage.getObjectById(id)
+    fun getDoggoById(id: Int): Flow<Doggo?> = doggoStorage.getDoggoById(id)
 }

@@ -6,7 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.utils.io.CancellationException
 
 interface DoggoApi {
-    suspend fun getData(): List<DoggoObject>
+    suspend fun getData(): List<Doggo>
 }
 
 class KtorDoggoApi(private val client: HttpClient) : DoggoApi {
@@ -15,7 +15,7 @@ class KtorDoggoApi(private val client: HttpClient) : DoggoApi {
             "https://raw.githubusercontent.com/droidcon-academy/kmp-mc-first-app/main/helper-files/doggo_list.json"
     }
 
-    override suspend fun getData(): List<DoggoObject> {
+    override suspend fun getData(): List<Doggo> {
         return try {
             client.get(API_URL).body()
         } catch (e: Exception) {

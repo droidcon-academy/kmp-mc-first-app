@@ -5,25 +5,25 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 interface DoggoStorage {
-    suspend fun saveObjects(newObjects: List<DoggoObject>)
+    suspend fun saveDoggos(newDoggos: List<Doggo>)
 
-    fun getObjectById(id: Int): Flow<DoggoObject?>
+    fun getDoggoById(id: Int): Flow<Doggo?>
 
-    fun getObjects(): Flow<List<DoggoObject>>
+    fun getDoggos(): Flow<List<Doggo>>
 }
 
 class InMemoryDoggoStorage : DoggoStorage {
-    private val storedObjects = MutableStateFlow(emptyList<DoggoObject>())
+    private val storedDoggos = MutableStateFlow(emptyList<Doggo>())
 
-    override suspend fun saveObjects(newObjects: List<DoggoObject>) {
-        storedObjects.value = newObjects
+    override suspend fun saveDoggos(newDoggos: List<Doggo>) {
+        storedDoggos.value = newDoggos
     }
 
-    override fun getObjectById(id: Int): Flow<DoggoObject?> {
-        return storedObjects.map { objects ->
-            objects.find { it.id == id }
+    override fun getDoggoById(id: Int): Flow<Doggo?> {
+        return storedDoggos.map { doggos ->
+            doggos.find { it.id == id }
         }
     }
 
-    override fun getObjects(): Flow<List<DoggoObject>> = storedObjects
+    override fun getDoggos(): Flow<List<Doggo>> = storedDoggos
 }

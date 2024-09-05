@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DoggoObject(
+data class Doggo(
     val name: String,
     @SerialName("bred_for") val bredFor: String? = null,
     @SerialName("breed_group") val breedGroup: String? = null,
