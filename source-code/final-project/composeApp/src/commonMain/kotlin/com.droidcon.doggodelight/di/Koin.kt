@@ -21,7 +21,6 @@ val dataModule = module {
         val json = Json { ignoreUnknownKeys = true }
         HttpClient {
             install(ContentNegotiation) {
-                // TODO Fix API so it serves application/json
                 json(json, contentType = ContentType.Any)
             }
         }
