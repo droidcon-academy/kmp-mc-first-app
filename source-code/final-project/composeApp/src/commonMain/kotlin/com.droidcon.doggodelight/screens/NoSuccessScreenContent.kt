@@ -7,17 +7,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import doggo_delight.composeapp.generated.resources.Res
 import doggo_delight.composeapp.generated.resources.no_data_available
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun EmptyScreenContent(
+fun NoSuccessScreenContent(
     modifier: Modifier = Modifier,
+    message: String,
 ) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        Text(stringResource(Res.string.no_data_available))
+        Text(message)
     }
 }

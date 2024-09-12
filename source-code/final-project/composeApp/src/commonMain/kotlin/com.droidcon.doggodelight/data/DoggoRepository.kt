@@ -17,9 +17,11 @@ class DoggoRepository(
         }
     }
 
-    suspend fun refresh() {
+    private suspend fun refresh() {
         doggoStorage.saveDoggos(doggoApi.getData())
     }
+
+    fun isRefreshed() : Flow<Boolean> = doggoStorage.isRefreshed()
 
     fun getDoggo(): Flow<List<Doggo>> = doggoStorage.getDoggos()
 

@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -29,10 +30,15 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.droidcon.doggodelight.data.Doggo
-import com.droidcon.doggodelight.screens.EmptyScreenContent
+import com.droidcon.doggodelight.data.ScreenState
+import com.droidcon.doggodelight.screens.NoSuccessScreenContent
 import com.droidcon.doggodelight.screens.detail.DoggoDetailScreen
+import doggo_delight.composeapp.generated.resources.Res
+import doggo_delight.composeapp.generated.resources.loading_data
+import doggo_delight.composeapp.generated.resources.no_data_available
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import org.jetbrains.compose.resources.stringResource
 
 data object DoggoListScreen : Screen {
     @Composable
@@ -40,18 +46,29 @@ data object DoggoListScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel: DoggoListScreenModel = getScreenModel()
 
-        val doggosList by screenModel.doggos.collectAsState()
+        val uiState by screenModel.uiState.collectAsState()
 
-        AnimatedContent(doggosList.isNotEmpty()) { doggos ->
-            if (doggos) {
-                DoggoGrid(
-                    doggoList = doggosList,
-                    onDoggoClick = { id ->
-                        navigator.push(DoggoDetailScreen(id))
-                    }
-                )
-            } else {
-                EmptyScreenContent(Modifier.fillMaxSize())
+        if (uiState is ScreenState.Loading) {
+            NoSuccessScreenContent(
+                Modifier.fillMaxSize(),
+                stringResource(Res.string.loading_data)
+            )
+        } else if(uiState is ScreenState.Success){
+            val doggosList = (uiState as ScreenState.Success).data
+            AnimatedContent(doggosList.isNotEmpty()) { doggos ->
+                if (doggos) {
+                    DoggoGrid(
+                        doggoList = doggosList,
+                        onDoggoClick = { id ->
+                            navigator.push(DoggoDetailScreen(id))
+                        }
+                    )
+                } else {
+                    NoSuccessScreenContent(
+                        Modifier.fillMaxSize(),
+                        stringResource(Res.string.no_data_available)
+                    )
+                }
             }
         }
     }
@@ -100,7 +117,10 @@ private fun DoggoFrame(
 
         Spacer(Modifier.height(2.dp))
 
-        Text(doggo.name, style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold))
+        Text(
+            doggo.name,
+            style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
+        )
         Text(doggo.bredFor ?: "", style = MaterialTheme.typography.body2)
         Text(doggo.origin ?: "", style = MaterialTheme.typography.caption)
     }
