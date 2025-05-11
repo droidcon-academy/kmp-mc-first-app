@@ -1,0 +1,61 @@
+# [1] Centralized version definitions for each key library and tool
+[versions]
+agp = "8.2.2"                                         # Android Gradle Plugin
+android-compileSdk = "35"
+android-minSdk = "24"
+android-targetSdk = "35"
+androidx-activityCompose = "1.10.1"                   # Jetpack Compose activity support
+androidx-lifecycle = "2.8.4"                          # Lifecycle-aware components
+compose-plugin = "1.7.3"                              # JetBrains Compose plugin
+kotlin = "2.0.21"                                     # Kotlin language version
+navigation = "2.8.0-alpha10"                          # Jetpack Compose Navigation
+serialization = "1.7.3"                               # Kotlinx Serialization
+landscapist = "2.4.2"                                 # Coil3 image loading in Compose
+koin = "4.0.0"                                        # Koin DI framework
+ktor = "3.0.0"                                        # Ktor HTTP client
+
+# [2] Define each library by linking it to its version declared above
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }           # Compose Activity integration
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }  # Lifecycle ViewModel
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }  # Compose + lifecycle integration
+
+components-resources = { group= "org.jetbrains.compose.components", name= "components-resources", version.ref ="compose-plugin"} # Compose Material3 support
+
+compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }             # Compose Navigation
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }           # JSON serialization
+coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }                                       # Image loading
+
+# [3] Koin Dependency Injection for Android, Compose, and ViewModel support
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+# [4] Ktor HTTP client modules
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+
+# [5] Plugin definitions (used in build.gradle.kts files)
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# [6] Grouping multiple related dependencies into a bundle (DRY principle)
+[bundles]
+ktor = [
+    "ktor-client-core",
+    "ktor-client-content-negotiation",
+    "ktor-client-auth",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+]
