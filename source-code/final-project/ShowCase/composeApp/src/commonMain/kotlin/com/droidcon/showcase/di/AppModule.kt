@@ -10,12 +10,12 @@ import org.koin.dsl.module
 
 val appModule = module {
     // Provide a single instance of StoreApi
-    singleOf(::StoreApi)               // (1)
+    singleOf(::StoreApi)
 
     // Provide a single instance of StoreRepository, injecting StoreApi
-    singleOf(::StoreRepository)        // (2)
+    singleOf(::StoreRepository)
 
     // Provide ViewModel instances (scoped to Koin's viewModel scope)
-    viewModelOf(::ProductListViewModel)   // (3)
-    viewModelOf(::ProductDetailViewModel) // (4)
+    viewModelOf(::ProductListViewModel)
+    viewModelOf(::ProductDetailViewModel)
 }

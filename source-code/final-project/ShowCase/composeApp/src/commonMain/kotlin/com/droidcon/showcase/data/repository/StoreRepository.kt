@@ -9,11 +9,11 @@ class StoreRepository(private val api: StoreApi) {
 
     fun getProducts(): Flow<List<Product>> = flow {
         val products = api.getProducts()
-        emit(products)                            // (1)
+        emit(products)
     }
 
     fun getProduct(id: Int): Flow<Product> = flow {
         val product = api.getProduct(id)
-        emit(product)                             // (2)
+        emit(product)
     }
 }

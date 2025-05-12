@@ -9,7 +9,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 class StoreApi {
-    private val client = HttpClient { // (1)
+    private val client = HttpClient {
         install(ContentNegotiation) {
             json(Json {
                 prettyPrint = true
@@ -19,11 +19,11 @@ class StoreApi {
         }
     }
 
-    private val baseUrl = "https://fakestoreapi.com"   // (2)
+    private val baseUrl = "https://fakestoreapi.com"
 
     suspend fun getProducts(): List<Product> =
-        client.get("$baseUrl/products").body()        // (3)
+        client.get("$baseUrl/products").body()
 
     suspend fun getProduct(id: Int): Product =
-        client.get("$baseUrl/products/$id").body()    // (4)
+        client.get("$baseUrl/products/$id").body()
 }

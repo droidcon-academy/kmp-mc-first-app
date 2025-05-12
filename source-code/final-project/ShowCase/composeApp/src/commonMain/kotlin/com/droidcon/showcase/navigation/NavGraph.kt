@@ -21,7 +21,7 @@ fun NavGraph() {
         // Destination 1: Product List Screen
         composable<ProductListScreenRoute> {
             ProductListScreen(
-                onProductClick = { product -> // This is not created yet.
+                onProductClick = { product ->
                     // Navigate to the detail screen route when a product is clicked
                     navController.navigate(ProductDetailScreenRoute(product.id))
                 }

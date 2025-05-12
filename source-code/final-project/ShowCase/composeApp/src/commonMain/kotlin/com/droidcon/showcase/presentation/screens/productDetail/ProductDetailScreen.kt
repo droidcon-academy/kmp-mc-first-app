@@ -24,9 +24,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -90,12 +87,11 @@ fun ProductDetailScreen(
     }
 }
 
-// The UI for the success state (product details)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProductDetailContent(product: Product, onBackClick: () -> Unit) {
     Scaffold(
-        topBar = { // (2)
+        topBar = {
             TopAppBar(
                 title = {
                     Text(
@@ -105,7 +101,7 @@ private fun ProductDetailContent(product: Product, onBackClick: () -> Unit) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) { // (3)
+                    IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(Res.string.navigate_back)
@@ -115,14 +111,14 @@ private fun ProductDetailContent(product: Product, onBackClick: () -> Unit) {
                 modifier = Modifier.fillMaxWidth()
             )
         },
-    ) { innerPadding -> // (4)
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()) // make content scrollable if needed
                 .padding(
                     PaddingValues(
-                        top = innerPadding.calculateTopPadding(), // (5)
+                        top = innerPadding.calculateTopPadding(),
                         start = 16.dp,
                         end = 16.dp,
                         bottom = innerPadding.calculateBottomPadding()

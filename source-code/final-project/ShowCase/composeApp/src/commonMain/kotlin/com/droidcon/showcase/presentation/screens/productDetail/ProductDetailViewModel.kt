@@ -22,15 +22,15 @@ class ProductDetailViewModel(
     fun loadProduct(id: Int) {
         viewModelScope.launch {
             repository.getProduct(id)
-                .onStart {       // (1)
+                .onStart {
                     _uiState.update {
                         UiState.Loading
                     }
                 }
-                .catch { e -> // (2)
+                .catch { e ->
                     _uiState.update { UiState.Error(e.message ?: "Unknown error") }
                 }
-                .collect { product -> // (3)
+                .collect { product ->
                     _uiState.update {
                         UiState.Success(product)
                     }

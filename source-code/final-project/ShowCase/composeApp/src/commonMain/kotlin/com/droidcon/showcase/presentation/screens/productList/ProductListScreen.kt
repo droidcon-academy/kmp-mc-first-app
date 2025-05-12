@@ -53,16 +53,16 @@ import showcase.composeapp.generated.resources.search_icon
 fun ProductListScreen(
     onProductClick: (Product) -> Unit
 ) {
-    val viewModel: ProductListViewModel = koinViewModel() // (1)
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle() // (2)
-    val query by viewModel.searchQuery.collectAsStateWithLifecycle() // (3)
+    val viewModel: ProductListViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val query by viewModel.searchQuery.collectAsStateWithLifecycle()
 
     Column {
 
         // Search bar remains the same
         SearchBar(
-            query = query, // (4)
-            onQueryChange = { viewModel.onSearchQueryChanged(it) }, // (5)
+            query = query,
+            onQueryChange = { viewModel.onSearchQueryChanged(it) },
             onSearch = { /* optionally handle search action */ },
             active = false,
             onActiveChange = { /* not using an expandable search UI */ },
@@ -74,9 +74,9 @@ fun ProductListScreen(
                 )
             },
             trailingIcon = {
-                if (query.isNotEmpty()) { // (6)
+                if (query.isNotEmpty()) {
                     IconButton(onClick = {
-                        viewModel.onSearchQueryChanged("") // (7)
+                        viewModel.onSearchQueryChanged("")
                     }) {
                         Icon(
                             imageVector = Icons.Default.Close,
@@ -132,7 +132,7 @@ fun ProductListScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(state.data) { product -> // (8)
+                    items(state.data) { product ->
                         ProductCard(product, onProductClick)
                     }
                 }
@@ -145,14 +145,14 @@ fun ProductListScreen(
 @Composable
 fun ProductCard(
     product: Product,
-    onProductClick: (Product) -> Unit // (3)
+    onProductClick: (Product) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
             .clickable {
-               onProductClick(product) // (4)
+               onProductClick(product)
             }
     ) {
         Column(
